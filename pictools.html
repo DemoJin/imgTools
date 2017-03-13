@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片在线处理工具</title>
+	<link rel="stylesheet" href="css/tools.css">
+</head>
+<body>
+	<!-- 头部 -->
+	<header class="tools-header">
+		<div class="add-file">
+			<input type="file"  name="file" id="file" multiple="multiple" onchange="javascript:tools.setImagePreviews();" accept="image/*" />
+			<button class="btn">添加图片</button>
+		</div>
+		<div class="load-file">
+			从主站帖子载入
+			<input type="url" placeholder="请输入帖子URL">
+			<button class="btn">载入</button>
+		</div>
+		<div class="btn-group">
+			<button class="btn clear bg-white" id="clearBoth">清空</button>
+			<button class="btn save">保存</button>
+		</div>
+
+		<button id="revokeAll">撤销全部</button>
+	</header>
+	<!-- main -->
+	<section class="tools-main">
+		<!-- load -->
+		<div class="loading"></div>
+		<!-- 左侧操作区 -->
+		<dl class="tools-nav">
+
+			<dt data-value="" class="active"><i></i>修改尺寸<mark></mark></dt>
+			<dd class="active">
+				<select name="" id="">
+					<option value="40*30">40*30</option>
+					<option value="400*300">400*300</option>
+					<option value="600*400">600*400</option>
+					<option value="600*450">600*450</option>
+					<option value="640*490">640*490</option>
+				</select>	
+				<div class="btn-group">
+					<button class="btn sure active" id="dimensionSure">确认</button>			
+					<button class="btn cancle" id="dimensionCancle">取消</button>	
+				</div>		
+			</dd>
+
+			<dt data-value="" id="cutClick"><i></i>裁剪<mark></mark></dt>
+			<dd>
+				<select name="" id="cutCrop">
+					<!-- <option value="-">自由裁剪</option> -->
+					<option value="40*30">40*30</option>
+					<option value="400*300">400*300</option>
+					<option value="600*400">600*400</option>
+					<option value="600*450">600*450</option>
+					<option value="640*490">640*490</option>
+				</select>
+				<div class="btn-group">
+					<button class="btn sure active" id="imgCutSure">确认</button>			
+					<button class="btn cancle" id="imgCutCancle">取消</button>	
+				</div>		
+			</dd>
+
+			<dt data-value=""><i></i>添加水印<mark></mark></dt>
+			<dd>
+				<div class="add-watermark">
+					<div class="tab">
+						<span class="active">图片</span><span>文字</span>
+					</div>
+					<!-- 图片水印 -->
+					<div class="tab-img">
+						<img id="imgPre" src="" width="100px" height="40px" /><span>
+							<input type="file" name="imgOne" id="imgOne" onchange="tools.preImg(this.id,'imgPre');" /> 
+							<button>导入水印</button>
+						</span>
+							
+					</div>
+					<!-- 文字水印 -->
+					<div class="tab-txt">
+						<input id="wmTxt" type="text" placeholder="输入水印文字" onkeyup="wmTxt()">
+						<select name="" id="fontFamily">
+							<option value="微软雅黑" selected>字体</option>
+							<option value="微软雅黑">微软雅黑</option>
+							<option value="sans-serif">宋体</option>
+						</select>
+						<select name="" id="fontSize">
+							<option value="18" selected>字号</option>
+							<option value="18">18</option>
+							<option value="24">24</option>
+							<option value="30">30</option>
+							<option value="36">36</option>
+							<option value="48">48</option>
+							<option value="60">60</option>
+						</select>
+						<button id="picker"></button>
+					</div>
+					<div class="site">
+						位置: 
+						<select name="" id="">
+							<option value="upperLeft">左上</option>
+							<option value="upperRight">右上</option>
+							<option value="center">正中</option>
+							<option value="lowerLeft">左下</option>
+							<option value="lowerRight">右下</option>
+						</select>
+					</div>
+				</div>
+				<div class="btn-group">
+					<button class="btn sure active" id="watermarkSure">确认</button>			
+					<button class="btn cancle" id="watermarkCancle">取消</button>	
+				</div>		
+			</dd>
+		</dl>
+		<!-- 右侧展示操作区 -->
+		<div class="tools-content">
+			<!-- 图片列表 -->
+			<ul class="tools-list" id="imgList">
+				
+			</ul>
+			<!-- 裁剪页面 -->
+			<iframe name="ifrmname" id="ifrmid" src="" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" ></iframe>
+		</div>
+		<!-- 虚拟图片渲染区 -->
+		<div id="canvasHolder" style="display:none;"></div>
+	</section>
+	<!-- 模态框 -->
+	<section class="tools-screen">
+		<!-- 图片展示弹窗 -->
+		<div class="screen-main">
+			<div class="screen-header">
+				<i class="screen-close">X</i>
+			</div>
+			<img src="" alt="">
+		</div>
+		<!-- 提示 -->
+		<div class="screen-confirm">
+			<p>当前状态未保存，是否继续？</p>
+			<div class="btn-group">
+				<button class="btn sure">是</button>
+				<button class="btn cancle">否</button>
+			</div>
+		</div>
+		<!-- 保存 -->
+		<div class="screen-save">
+			<div>文件名 <input type="text" id="saveName"></div>
+			<div class="btn-group">
+				<button class="btn sure">确认</button>
+				<button class="btn cancle">取消</button>
+			</div>
+		</div>
+		<!-- alert -->
+		<div class="screen-alert">
+			<p></p>
+		</div>
+		<!-- 模态框背景 -->
+		<div class="screen-bg"></div>
+		<!-- <canvas>请升级你的浏览器</canvas> -->
+	</section>
+
+	<!-- <input type="hidden" name="rootPath" id="rootPath" value="${__beat.server.contextPath}" /> -->
+	<script src="libs/jquery/jquery.min.js"></script>
+	<script src="libs/colpick/colpick.js" type="text/javascript"></script>
+	<script src="libs/watermark/watermark.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="libs/colpick/colpick.css" type="text/css"/>
+	<script src="libs/tools.js"></script>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+   
+    html,body {
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+    }
+
+    a {
+        color: #d0e0eb;
+        text-decoration: none;
+        outline: none;
+    }
+    a:hover,
+    a:focus {
+        color: #fff;
+    }
+    .content {
+        max-width: 1290px;
+        padding: 0 1em;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .component {
+        position: relative;
+        /*background: url(http://tympanus.net/Tutorials/ImageResizeCropCanvas/img/gridme.png) repeat center center;*/
+        background: #fff;
+        padding: 4em;
+        height: 450px;
+        border: 1px solid #ccc;
+        max-width: 901px;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+    .codrops-header {
+        padding: 0 0 2em;
+        letter-spacing: -1px;
+    }
+    .codrops-header h1 {
+        font-weight: 800;
+        font-size: 2.5em;
+        line-height: 1.3;
+        margin: 0.25em auto;
+    }
+    .codrops-header h1 span,
+    .a-tip {
+        color: #49708a;
+    }
+    .a-tip {
+        padding: 1em;
+    }
+    .a-tip span {
+        border: 2px solid #fff;
+        color: #fff;
+        
+        display: inline-block;
+        padding: 0 5px;
+    }
+    .codrops-top {
+        width: 100%;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 0.69em;
+        line-height: 2.2;
+    }
+    .codrops-top a {
+        display: inline-block;
+        padding: 1em 2em;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+    .codrops-top span.right {
+        float: right;
+    }
+    .codrops-top span.right a {
+        display: block;
+        float: left;
+    }
+    .codrops-icon:before {
+        margin: 0 4px;
+        text-transform: none;
+        font-weight: normal;
+        font-style: normal;
+        font-variant: normal;
+        font-family: 'codropsicons';
+        line-height: 1;
+        speak: none;
+        -webkit-font-smoothing: antialiased;
+    }
+    .codrops-icon-drop:before {
+        content: "\e001";
+    }
+    .codrops-icon-prev:before {
+        content: "\e004";
+    }
+    .codrops-demos a {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 0.5em 1em;
+        margin: 5px;
+        display: inline-block;
+        border: 1px solid black;
+        border-color: initial;
+        border-radius: 4px;
+    }
+    .codrops-demos a.current-demo {
+        color: #74777b;
+    }
+    .related {
+        text-align: center;
+        padding: 4em 0 2em;
+    }
+    .related > a {
+        width: calc(100% - 20px);
+        max-width: 340px;
+        border: 2px solid #49708a;
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+        margin: 20px 10px;
+        padding: 25px;
+    }
+    .related a img {
+        max-width: 100%;
+        opacity: 0.8;
+    }
+    .related a:hover img,
+    .related a:active img {
+        opacity: 1;
+    }
+    .related a h3 {
+        margin: 0;
+        padding: 0.5em 0 0.3em;
+        max-width: 300px;
+        /* Demo ad design */
+        
+        text-align: left;
+        min-height: 60px;
+    }
+    body #cdawrap {
+        background: rgba(0, 0, 0, 0.05);
+        top: 50px;
+        border: none;
+    }
+    body #cdawrap a {
+        color: #fff !important;
+    }
+    body #cda-remove {
+        color: #fff;
+    }
+    @media screen and (max-width: 27em) {
+        .codrops-icon {
+            font-size: 1.5em;
+        }
+        .codrops-icon span {
+            display: none;
+        }
+    }
+    .resize-container {
+        position: relative;
+        display: inline-block;
+        cursor: move;
+        margin: 0 auto;
+    }
+    .resize-container img {
+        display: block;
+    }
+    .resize-container:hover img,
+    .resize-container:active img {
+        outline: 2px dashed rgba(222, 60, 80, .9);
+    }
+    .resize-handle-ne,
+    .resize-handle-se,
+    .resize-handle-nw,
+    .resize-handle-sw {
+        position: absolute;
+        display: block;
+        width: 10px;
+        height: 10px;
+        background: rgba(222, 60, 80, .9);
+        z-index: 999;
+    }
+    .resize-handle-nw {
+        top: -5px;
+        left: -5px;
+        cursor: nw-resize;
+    }
+    .resize-handle-sw {
+        bottom: -5px;
+        left: -5px;
+        cursor: sw-resize;
+    }
+    .resize-handle-ne {
+        top: -5px;
+        right: -5px;
+        cursor: ne-resize;
+    }
+    .resize-handle-se {
+        bottom: -5px;
+        right: -5px;
+        cursor: se-resize;
+    }
+    .overlay {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+
+        transform: translate(-50%,-50%);
+        z-index: 999;
+        width: 200px;
+        height: 200px;
+        border: solid 2px rgba(222, 60, 80, .9);
+        box-sizing: content-box;
+        pointer-events: none;
+    }
+
+    .btn-crop {
+        position: absolute;
+        vertical-align: bottom;
+        right: 5px;
+        bottom: 5px;
+        padding: 6px 10px;
+        z-index: 999;
+        background-color: #de3c50;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+    }
+    .btn-crop img {
+        vertical-align: middle;
+        margin-left: 8px;
+    }
+    ul{
+        position: absolute;
+        margin: 10px;
+        padding: 0;
+    }
+    ul li{
+        width: 180px;
+        height: 180px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+        overflow: hidden;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        transition: all .5s;
+        position: relative;
+    }
+    ul li:hover{
+        opacity: .8;
+        box-shadow: 0 0 2px #ccc;
+    }
+    ul img{
+        width: 90%;
+        display: inline-block;
+        vertical-align: middle;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    
+    .content{
+        display: none;
+        position: relative;
+        top: 20px;
+        z-index: 3;
+    }
+    .content-bg{
+        display: none;
+        background: rgba(0,0,0,.5);
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+    }
+    .close{
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background: #f1f1f1;
+        border: 0;
+        border-radius: 4px;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+</style>
+<body>
+        <button class="cancle" hidden>撤销</button>
+
+        <ul>
+        </ul>
+
+        <div class="content">
+            
+            <div class="component">
+                <button class="close">关闭</button>
+                <div class="overlay"></div>
+                <button class="btn-crop js-crop">裁剪</button>
+            </div>
+
+        </div>
+        <div class="content-bg"></div>
+
+    <script src="libs/jquery/jquery.min.js"></script>
+    <script>
+
+        var indexLi;
+
+        $('ul').empty();
+        var w=40,h=30;
+     
+        function childtest(width,height){
+
+            sessionStorage.w = width;
+            sessionStorage.h = height;
+            $('.overlay').width(width);
+            $('.overlay').height(height);
+        }
+
+        $('.overlay').width(sessionStorage.w?sessionStorage.w:w);
+        $('.overlay').height(sessionStorage.h?sessionStorage.h:h);
+
+
+         $('.cancle').click(function(){
+             // $('ul li').detach();
+             /*$('ul').empty();
+             sessionStorage.clear();
+             $.each(cutArr,function(i,n){
+                 $('ul').append('<li><img src="'+n+'"></li>');
+             });
+             imgArr = cutArr;
+             creatLi();
+             window.parent.parenttest();*/
+
+             cancle();
+         });
+
+         function cancle(){
+            // $('ul li').detach();
+            $('ul').empty();
+            sessionStorage.clear();
+            /*$.each(cutArr,function(i,n){
+                $('ul').append('<li><img src="'+n+'"></li>');
+            });*/
+            imgArr = [];
+            creatLi();
+            window.parent.parenttest();
+         }
+
+         //reload后从session中读取图片数组
+         if (JSON.parse(sessionStorage.imgArr).length>=1) {
+            imgArr = JSON.parse(sessionStorage.imgArr);
+         }else{
+            imgArr = JSON.parse(sessionStorage.cutArr);
+         }
+         $.unique(imgArr);
+         //重新创建li标签
+         function creatLi(){
+            $.each(imgArr,function(i,n){
+                $('ul').append('<li><img src="'+n+'"></li>');
+            });
+         };
+        creatLi();
+
+        //父页面数组
+        function cropArr() {
+            var cropArr = [];
+            $('ul li').each(function(i){
+              cropArr.push($(this).find('img').attr('src'));
+            });
+            return cropArr;
+        };
+
+        //子页面li调用裁剪方法
+        $('ul').on('click',' li',function(){
+            $('.content,.content-bg').fadeIn(100);
+            var curSrc = $(this).find('img').attr('src');
+            var target = document.querySelector('.component');
+            var existingChild = document.querySelector('.component .btn-crop');
+            liIndex = $(this).index();
+
+            var aLi = document.createElement('img');
+            // aLi.appendChild(tools.convertCanvasToImage(n));
+            aLi.setAttribute('class','resize-image');
+            aLi.setAttribute('src',curSrc);
+
+            target.insertBefore(aLi,existingChild)
+            // pre.insertBefore('<img class="resize-image" src="" alt="image for resizing">');
+
+            // $('.overlay').after('<img class="resize-image" src="" alt="image for resizing">');
+            var resizeImage = document.querySelector('.overlay img');
+            
+            // aLi = docvar ument.createElement('li');
+            // aLi.appendChild(img);
+            // $('.resize-image').attr('src',curSrc);
+            resizeableImage($('.resize-image'));
+            // console.log(curSrc,$('.resize-image').attr('src'),'---curSrc');
+
+        });
+
+        window.onload=function(){
+            if (sessionStorage.isCrop==0) {
+                return false;
+            }
+
+           $('ul li:first-child').trigger('click');
+           sessionStorage.isCrop = 0;
+        }
+
+        $('.close').click(function(){
+            $('.resize-image').attr('src','');
+            $('.resize-container').remove();
+            $('.content,.content-bg').fadeOut(50);
+            resizeImage(0, 0);
+            location.reload();
+
+        });
+
+        //裁剪重置
+        var resizeableImage = function(image_target) {
+            var $container,
+                orig_src = new Image(),
+                image_target = $(image_target).get(0),
+                event_state = {},
+                constrain = false,
+                min_width = 60,
+                min_height = 60,
+                max_width = 800, 
+                max_height = 900,
+                resize_canvas = document.createElement('canvas');
+
+            init = function() {
+                isTure = 1;
+
+                orig_src.src = image_target.src;
+
+                $(image_target).wrap('<div class="resize-container"></div>')
+                    .before('<span class="resize-handle resize-handle-nw"></span>')
+                    .before('<span class="resize-handle resize-handle-ne"></span>')
+                    .after('<span class="resize-handle resize-handle-se"></span>')
+                    .after('<span class="resize-handle resize-handle-sw"></span>');
+
+                $container = $(image_target).parent('.resize-container');
+
+                // Add events
+                $container.on('mousedown touchstart', '.resize-handle', startResize);
+                $container.on('mousedown touchstart', 'img', startMoving);
+                $('.js-crop').on('click', crop);
+            };
+
+            startResize = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                saveEventState(e);
+                $(document).on('mousemove touchmove', resizing);
+                $(document).on('mouseup touchend', endResize);
+            };
+
+            endResize = function(e) {
+                e.preventDefault();
+                $(document).off('mouseup touchend', endResize);
+                $(document).off('mousemove touchmove', resizing);
+            };
+
+            saveEventState = function(e) {
+                // Save the initial event details and container state
+                event_state.container_width = $container.width();
+                event_state.container_height = $container.height();
+                event_state.container_left = $container.offset().left;
+                event_state.container_top = $container.offset().top;
+                event_state.mouse_x = (e.clientX || e.pageX || e.originalEvent.touches[0].clientX) + $(window).scrollLeft();
+                event_state.mouse_y = (e.clientY || e.pageY || e.originalEvent.touches[0].clientY) + $(window).scrollTop();
+
+                if (typeof e.originalEvent.touches !== 'undefined') {
+                    event_state.touches = [];
+                    $.each(e.originalEvent.touches, function(i, ob) {
+                        event_state.touches[i] = {};
+                        event_state.touches[i].clientX = 0 + ob.clientX;
+                        event_state.touches[i].clientY = 0 + ob.clientY;
+                    });
+                }
+                event_state.evnt = e;
+            };
+
+            resizing = function(e) {
+                var mouse = {},
+                    width, height, left, top, offset = $container.offset();
+                mouse.x = (e.clientX || e.pageX || e.originalEvent.touches[0].clientX) + $(window).scrollLeft();
+                mouse.y = (e.clientY || e.pageY || e.originalEvent.touches[0].clientY) + $(window).scrollTop();
+
+                console.log(mouse.x,mouse.y);
+
+                if ($(event_state.evnt.target).hasClass('resize-handle-se')) {
+                    width = mouse.x - event_state.container_left;
+                    height = mouse.y - event_state.container_top;
+                    left = event_state.container_left;
+                    top = event_state.container_top;
+                } else if ($(event_state.evnt.target).hasClass('resize-handle-sw')) {
+                    width = event_state.container_width - (mouse.x - event_state.container_left);
+                    height = mouse.y - event_state.container_top;
+                    left = mouse.x;
+                    top = event_state.container_top;
+                } else if ($(event_state.evnt.target).hasClass('resize-handle-nw')) {
+                    width = event_state.container_width - (mouse.x - event_state.container_left);
+                    height = event_state.container_height - (mouse.y - event_state.container_top);
+                    left = mouse.x;
+                    top = mouse.y;
+                    if (constrain || e.shiftKey) {
+                        top = mouse.y - ((width / orig_src.width * orig_src.height) - height);
+                    }
+                } else if ($(event_state.evnt.target).hasClass('resize-handle-ne')) {
+                    width = mouse.x - event_state.container_left;
+                    height = event_state.container_height - (mouse.y - event_state.container_top);
+                    left = event_state.container_left;
+                    top = mouse.y;
+                    if (constrain || e.shiftKey) {
+                        top = mouse.y - ((width / orig_src.width * orig_src.height) - height);
+                    }
+                }
+
+                console.log(left,top,'---pos');
+
+                if (constrain || e.shiftKey) {
+                    height = width / orig_src.width * orig_src.height;
+                }
+
+                // if (width > min_width && height > min_height && width < max_width && height < max_height) {
+        
+                    resizeImage(width, height);
+                    $container.offset({
+                        'left': left,
+                        'top': top
+                    });
+                // }
+            }
+
+            resizeImage = function(width, height) {
+                resize_canvas.width = width;
+                resize_canvas.height = height;
+
+                resize_canvas.getContext('2d').drawImage(orig_src, 0, 0, width, height);
+
+                $(image_target).attr('src', resize_canvas.toDataURL("image/png"));
+            };
+
+            startMoving = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                saveEventState(e);
+                $(document).on('mousemove touchmove', moving);
+                $(document).on('mouseup touchend', endMoving);
+            };
+
+            endMoving = function(e) {
+                e.preventDefault();
+                $(document).off('mouseup touchend', endMoving);
+                $(document).off('mousemove touchmove', moving);
+            };
+
+            moving = function(e) {
+                var mouse = {},
+                    touches;
+                e.preventDefault();
+                e.stopPropagation();
+
+                touches = e.originalEvent.touches;
+
+                mouse.x = (e.clientX || e.pageX || touches[0].clientX) + $(window).scrollLeft();
+                mouse.y = (e.clientY || e.pageY || touches[0].clientY) + $(window).scrollTop();
+                $container.offset({
+                    'left': mouse.x - (event_state.mouse_x - event_state.container_left),
+                    'top': mouse.y - (event_state.mouse_y - event_state.container_top)
+                });
+                if (event_state.touches && event_state.touches.length > 1 && touches.length > 1) {
+                    var width = event_state.container_width,
+                        height = event_state.container_height;
+                    var a = event_state.touches[0].clientX - event_state.touches[1].clientX;
+                    a = a * a;
+                    var b = event_state.touches[0].clientY - event_state.touches[1].clientY;
+                    b = b * b;
+                    var dist1 = Math.sqrt(a + b);
+
+                    a = e.originalEvent.touches[0].clientX - touches[1].clientX;
+                    a = a * a;
+                    b = e.originalEvent.touches[0].clientY - touches[1].clientY;
+                    b = b * b;
+                    var dist2 = Math.sqrt(a + b);
+
+                    var ratio = dist2 / dist1;
+
+                    width = width * ratio;
+                    height = height * ratio;
+
+                    resizeImage(width, height);
+                }
+            };
+
+            crop = function() {
+                if (isTure = 0) {
+                    // return false;
+                }
+
+                var crop_canvas,
+                    left = $('.overlay').offset().left - $container.offset().left,
+                    top = $('.overlay').offset().top - $container.offset().top,
+                    width = $('.overlay').width(),
+                    height = $('.overlay').height();
+
+                crop_canvas = document.createElement('canvas');
+                crop_canvas.width = width;
+                crop_canvas.height = height;
+
+                crop_canvas.getContext('2d').drawImage(image_target, left, top, width, height, 0, 0, width, height);
+
+                // $('.resize-image').attr('src','');
+                $('.resize-container').remove();
+                $('.content,.content-bg').fadeOut(50);
+ 
+                imgArr[liIndex] = crop_canvas.toDataURL("image/png");
+                sessionStorage.imgArr = JSON.stringify(imgArr);
+                resizeImage(0, 0);
+                location.reload();
+
+                // window.parent.document.frames('ifrmname').location.reload();
+                // crop_canvas.clearRect(0,0,width,height);
+                // isTure = 0;
+
+            }
+
+            init();
+        };
+
+        // resizeableImage($('.resize-image'));
+    </script>
+</body>
+</html>
