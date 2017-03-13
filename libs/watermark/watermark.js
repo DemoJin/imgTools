@@ -827,7 +827,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @return {Function}
 	 */
 	function upperLeft(text, font, fillStyle, alpha, y) {
-		alert(y);
 	  return atPos(function () {
 	    return 10;
 	  }, function () {
