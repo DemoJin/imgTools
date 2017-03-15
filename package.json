@@ -31,5 +31,13 @@
     "opn": "^4.0.2",
     "postcss-px2rem": "^0.3.0",
     "webpack-stream": "^3.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DemoJin/imgTools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DemoJin/imgTools/issues"
+  },
+  "homepage": "https://github.com/DemoJin/imgTools#readme"
 }
