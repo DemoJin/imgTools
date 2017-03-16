@@ -1,3 +1,7 @@
+window.imgTools={
+    version:'1.0.3'
+};
+
 var rootPath = $('#rootPath').val();
 
 /*var winTopIfr = window.top.document.documentElement.clientHeight-70;
