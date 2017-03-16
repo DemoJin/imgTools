@@ -670,7 +670,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return atPos(function (target, mark) {
 	    return target.width - (mark.width + 10);
 	  }, function (target, mark) {
-	    return 50;
+	    return 10;
 	  }, alpha);
 	}
 
@@ -698,9 +698,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function upperLeft(alpha) {
 	  return atPos(function (target, mark) {
-	    return 50;
+	    return 10;
 	  }, function (target, mark) {
-	    return 50;
+	    return 10;
 	  }, alpha);
 	}
 
@@ -812,7 +812,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return atPos(function (target, metrics) {
 	    return target.width - (metrics.width + 10);
 	  }, function () {
-	    return y || 50;
+	    return y || $('#fontSize').val();
 	  }, text, font, fillStyle, alpha);
 	}
 
@@ -830,7 +830,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return atPos(function () {
 	    return 10;
 	  }, function () {
-	    return y || 50;
+	    return y || $('#fontSize').val();
 	  }, text, font, fillStyle, alpha);
 	}
 

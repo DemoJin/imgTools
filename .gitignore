@@ -1,7 +1,13 @@
+.DS_Store
+Thumbs.db
+db.json
+*.log
+node_modules/
+.idea/
+.deploy*/
 gulpfile.js
 file.html
 save.html
 *.bat
-node_modules/
 .sass-cache/
 scss/

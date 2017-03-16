@@ -329,6 +329,7 @@ function screenAlert(txt){
 
 //imgTools方法绑定
 var tools ={
+    version:'',
     init:function(){
         initArr = [], //初始路径
         curArr = [], //当前数组
@@ -407,6 +408,10 @@ var tools ={
             $('dd:nth-child(2),dd:nth-child(4)').find('select').val('40*30');
             $('.tools-list').empty();
             $('#wmTxt').val('');
+            $('#fontFamily').val('Microsoft YaHei');
+            $('#fontSize').val('18');
+            $('#opacitySel').val('1');
+            $('#siteSel').val('upperLeft');
             $('#ifrmid').hide().attr('src','');
             sessionStorage.isCrop = 0;
             $.each(initArr,function(i,n){
@@ -612,6 +617,10 @@ var tools ={
         $('dt:nth-child(1)').trigger('click');
         $('.tools-list').empty();
         $('#wmTxt').val('');
+        $('#fontFamily').val('Microsoft YaHei');
+        $('#fontSize').val('18');
+        $('#opacitySel').val('1');
+        $('#siteSel').val('upperLeft');
         initArr = [],
         curArr = [],
         saveArr = [];
@@ -982,8 +991,8 @@ var tools ={
             });
 
             var srcList = curArr;
-
-            var positionVal = $('.site select option:selected').val();
+            var positionVal = $('.site select option:selected').val(),
+                opacityVal = $('.opacity select option:selected').val();
 
             //图片方法
             if ($('.tab .active').html()=='图片') {
@@ -1010,7 +1019,7 @@ var tools ={
                 Console(srcList,'----srcList');
                 $.each(srcList,function(i,n){
                     watermark([n, watermarkUrl])
-                      .image(curWM(0.9))
+                      .image(curWM(opacityVal))
                       .then(function (img) {
                         // var pre = document.querySelector('#alpha-image span');
                         // pre.parentNode.insertBefore(img, pre);
@@ -1054,7 +1063,7 @@ var tools ={
                 $.each(srcList,function(i,n){
                     watermark([n])
                       // .image(watermark.text.upperRight(txtVal, '50px serif', hex, 0.9))
-                      .image(curWM(txtVal, txtFontSize+'px '+txtFontFamily, txtColor, 0.9))
+                      .image(curWM(txtVal, txtFontSize+'px '+txtFontFamily, txtColor, opacityVal))
                       .then(function (img) {
         
                         var aLi = document.createElement('li');
@@ -1083,9 +1092,10 @@ var tools ={
             $('dd .sure').addClass('active');
             $('#imgPre').attr('src','');
             $('.tab-txt input').val('');
-            $('#fontFamily').val('微软雅黑');
+            $('#fontFamily').val('Microsoft YaHei');
             $('#fontSize').val('18');
-            $('.site select').val('upperLeft');
+            $('#opacitySel').val('1');
+            $('#siteSel').val('upperLeft');
 
             $(this).parents('dd').slideUp(200).prev().removeClass('active').find('mark').hide();
             Console(prevArr,'---prevArr');
@@ -1103,6 +1113,5 @@ var tools ={
            
         });
     }
-
 };
 

@@ -109,8 +109,11 @@ i, em { font-style: normal; }
 .tools-main .add-watermark .tab-img img { width: 60px; height: 45px; vertical-align: top; display: inline-block; float: left; margin-left: 35px; }
 .tools-main .add-watermark .tab-txt { display: none; }
 .tools-main .add-watermark .tab-txt input { border: 1px solid #ccc; width: 86%; height: 26px; border-radius: 4px; margin: 10px auto; }
-.tools-main .add-watermark .tab-txt select { width: 36%; }
+.tools-main .add-watermark .tab-txt #fontFamily { width: 43%; }
+.tools-main .add-watermark .tab-txt #fontSize { width: 29%; }
 .tools-main .add-watermark .tab-txt #picker { width: 24px; height: 24px; border: 1px solid #ccc; vertical-align: middle; border-radius: 4px; }
+.tools-main .add-watermark .opacity, .tools-main .add-watermark .site { width: 43%; display: inline-block; }
+.tools-main .add-watermark .opacity select, .tools-main .add-watermark .site select { width: 100% !important; }
 
 .tools-screen { position: absolute; top: 0; }
 .tools-screen .screen-main { display: none; width: auto; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; padding: 10px 20px 0; background: #fff; }
@@ -129,4 +132,3 @@ i, em { font-style: normal; }
 
 .loading { background: url(../img/loading.gif) no-repeat; width: 60px; height: 60px; position: absolute; top: 50%; left: 50%; z-index: 10; margin-top: -30px; margin-left: -30px; display: none; }
 
-/*# sourceMappingURL=tools.css.map */
