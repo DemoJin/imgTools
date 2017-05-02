@@ -22,7 +22,7 @@ $(function(){
     $('.tools-content').height(curH);
     // 裁剪iframe宽高赋值
     $('#ifrmid').width($(window).width()-260);    
-    $('#ifrmid').height($(window).height()-58); 
+    $('#ifrmid').height($(window).height()-66); 
     $('#ifrmid').css({'top':'0','left':'260px'}); 
     //loading位置赋值
     $('.loading').css('top',(winTopIfr-60)/2);
@@ -162,7 +162,7 @@ $(function(){
                     topH = (winTopIfr-imgH)/2,
                     leftW = ($(window).width()-imgW-50)/2;
 
-                $('.screen-bg').css({'top':'58px','left':'260px'}).fadeIn(0);
+                $('.screen-bg').css({'top':'66px','left':'260px'}).fadeIn(0);
                 $('.screen-main').height(imgH+36).width(imgW).css({'top':topH,'left':leftW+130});
                 $('.screen-header').width(imgW);
             }else{
@@ -555,8 +555,8 @@ var tools ={
         var loadUrl = $('.load-file input').val();
         var Reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g;
 
-        if (!Reg.test(loadUrl)||loadUrl.indexOf('58.com')=='-1') {
-            screenAlert('请输入正确URL地址，仅限于58生活服务品类！');
+        if (!Reg.test(loadUrl)||loadUrl.indexOf('66.com')=='-1') {
+            screenAlert('请输入正确URL地址，仅限于66生活服务品类！');
             return false;
         };
 
@@ -581,12 +581,12 @@ var tools ={
                 // var sData = datas.content;
 
                 if (datas.status==500) {
-                    screenAlert('请输入正确URL地址，仅限于58生活服务品类！');
+                    screenAlert('请输入正确URL地址，仅限于66生活服务品类！');
                     return false;
                 };
 
                 /*if (datas.status==500) {
-                    screenAlert('请输入正确URL地址，仅限于58生活服务品类！');
+                    screenAlert('请输入正确URL地址，仅限于66生活服务品类！');
                     return false;
                 }else if(!datas.tag||datas.tag.length<1){
                     screenAlert('当前帖子未包含图片，请输入其他正确URL地址！');

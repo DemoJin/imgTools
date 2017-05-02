@@ -108,7 +108,7 @@ colpick Color Picker / colpick.com
 	height: 0; 
 	border-top: 6px solid transparent;
 	border-bottom: 6px solid transparent;
-	border-left: 7px solid #858585;
+	border-left: 7px solid #866665;
 }
 .colpick_hue_rarr {
 	position:absolute;
@@ -117,7 +117,7 @@ colpick Color Picker / colpick.com
 	height: 0; 
 	border-top: 6px solid transparent;
 	border-bottom: 6px solid transparent; 
-	border-right: 7px solid #858585; 
+	border-right: 7px solid #866665; 
 }
 /*New color box*/
 .colpick_new_color {
