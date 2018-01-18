@@ -1,11 +1,11 @@
 
 ## 在线图片处理工具
 
->[demo]( https://demojin.github.io/imgTools/pictools.html "在线图片处理工具") 
+> [demo]( https://demojin.github.io/imgTools/pictools.html "在线图片处理工具") 
 
 ### 工具说明
 
->version 1.0.1
+> version 1.0.1
 
 * 实现本地单张或多张图片添加`超出十张友好提示`
 * 尺寸大小批量更改
@@ -15,7 +15,7 @@
 * 保存处理后的图片`待优化`
 * 撤销全部操作
 
->version 1.0.2
+> version 1.0.2
 
 * 增加常见字体
 
